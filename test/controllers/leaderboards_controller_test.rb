@@ -8,6 +8,14 @@ class LeaderboardsControllerTest < ActionDispatch::IntegrationTest
     @leaderboard.reset! # Clear the leaderboard before each test
   end
 
+  context 'POST /leaderboards' do
+    should 'create a new leaderboard' do
+      post leaderboards_url, params: { id: 'new' }, as: :json
+      assert_response :created
+      assert_equal('new', JSON.parse(@response.body)['id'])
+    end
+  end
+
   context 'POST /leaderboards/:id/scores' do
     should 'add score to leaderboard' do
       post add_score_leaderboard_url(@leaderboard_id), params: { user_id: 1, score: 100 }, as: :json

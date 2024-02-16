@@ -3,7 +3,16 @@
 # get the top scores from a leaderboard, get the rank of a user, and reset a leaderboard.
 class LeaderboardsController < ApplicationController
   # Sets the @leaderboard instance variable before each action.
-  before_action :set_leaderboard
+  before_action :set_leaderboard, except: :create
+
+  # POST /leaderboards
+  # Creates a new leaderboard.
+  # Params:
+  # +id+: The ID of the new leaderboard.
+  def create
+    @leaderboard = Leaderboard.new(id: params[:id])
+    render json: @leaderboard, status: :created
+  end
 
   # POST /leaderboards/:id/scores
   # Adds a score to the leaderboard.

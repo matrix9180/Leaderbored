@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :leaderboards, only: [], param: :id do
+  resources :leaderboards, only: [:create], param: :id do
     member do
       post 'scores', to: 'leaderboards#add_score', as: :add_score
       delete 'scores/:user_id', to: 'leaderboards#delete_score', as: :score
