@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Leaderbored
 
-Things you may want to cover:
+A fast rails API for leaderboards.
 
-* Ruby version
+requires ruby 3.3 and Redis.
 
-* System dependencies
+make sure Redis is running and run `bundle && bin/rails test` to make sure everything is working. run bin/rails s to start the server.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
