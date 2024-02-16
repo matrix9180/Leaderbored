@@ -1,5 +1,3 @@
-# app/models/leaderboard.rb
-
 # The Leaderboard class represents a leaderboard in the application.
 # It uses a Redis sorted set to store scores, where each score is associated with a user_id.
 # The scores are automatically sorted in ascending order by Redis.
@@ -19,6 +17,18 @@ class Leaderboard
   # @param score [Integer] The score to add.
   def add_score(user_id, score)
     redis.zadd("leaderboard:#{id}", score, user_id)
+  end
+
+  # Deletes a user's score from the leaderboard.
+  #
+  # @param user_id [Integer] The ID of the user.
+  def delete_score!(user_id)
+    redis.zrem("leaderboard:#{id}", user_id)
+  end
+
+  # Resets the leaderboard by deleting all scores.
+  def reset!
+    redis.del("leaderboard:#{id}")
   end
 
   # Returns the top scores from the leaderboard.

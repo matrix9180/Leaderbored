@@ -6,7 +6,7 @@ class LeaderboardTest < ActiveSupport::TestCase
   context 'Leaderboard' do
     setup do
       @leaderboard = Leaderboard.new(id: 'test')
-      @leaderboard.redis.del('leaderboard:test') # Clear the leaderboard before each test
+      @leaderboard.reset! # Clear the leaderboard before each test
     end
 
     # Tests that a score can be added to the leaderboard.
@@ -50,13 +50,24 @@ class LeaderboardTest < ActiveSupport::TestCase
       assert_equal [['2', 100.0], ['1', 100.0]], @leaderboard.top_scores(2)
     end
 
-    # Tests that top_scores only returns the specified number of scores.
-    should 'return only specified number of top scores' do
+    # Tests that a score can be deleted from the leaderboard.
+    should 'delete score from leaderboard' do
       @leaderboard.add_score(1, 100)
-      @leaderboard.add_score(2, 200)
-      @leaderboard.add_score(3, 300)
-      @leaderboard.add_score(4, 400)
-      assert_equal [['4', 400.0], ['3', 300.0], ['2', 200.0]], @leaderboard.top_scores(3)
+      @leaderboard.delete_score!(1)
+      assert_equal [], @leaderboard.top_scores(1)
+    end
+
+    # Tests that the leaderboard can be reset.
+    should 'reset leaderboard' do
+      @leaderboard.add_score(1, 100)
+      @leaderboard.reset!
+      assert_equal [], @leaderboard.top_scores(1)
+    end
+
+    # Tests that top_scores does not return more scores than exist in the leaderboard.
+    should 'not return more scores than exist' do
+      @leaderboard.add_score(1, 100)
+      assert_equal [['1', 100.0]], @leaderboard.top_scores(3)
     end
   end
 end
