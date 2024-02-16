@@ -1,11 +1,11 @@
-require_relative '../../config/environment'
+require_relative '../config/environment'
 require 'benchmark/ips'
 
 class LeaderboardModelBenchmark # :nodoc: all
   def initialize
     @leaderboard = Leaderboard.new(id: 'test')
     @user_id = 1
-    @score = 100
+    @score = Random.rand(100_000_000_000_000)
   end
 
   def add_score
