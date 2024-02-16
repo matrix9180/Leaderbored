@@ -1,7 +1,7 @@
 require_relative '../../config/environment'
 require 'benchmark/ips'
 
-class LeaderboardModelBenchmark
+class LeaderboardModelBenchmark # :nodoc: all
   def initialize
     @leaderboard = Leaderboard.new(id: 'test')
     @user_id = 1
